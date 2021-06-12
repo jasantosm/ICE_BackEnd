@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 def create_company(db: Session, company: schemas.Company):
+
     db_company = models.Company(
         name = company.name,
         email = company.email,
@@ -20,3 +21,6 @@ def create_company(db: Session, company: schemas.Company):
     db.refresh(db_company)
 
     return db_company
+
+def get_company(db: Session, vat_number: int):
+    return db.query(models.Company).filter(models.Company.vat_number==vat_number).first()

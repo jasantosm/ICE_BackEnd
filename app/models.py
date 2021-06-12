@@ -16,5 +16,5 @@ class Company(Base):
     state = Column(Text, nullable=False)
     phone = Column(Text, nullable=False)
     logo = Column(Text, nullable=False)
-    vat_number = Column(Integer, nullable=False)
+    vat_number = Column(Integer, unique=True, nullable=False)
     
