@@ -10,7 +10,6 @@ class Company(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(Text, nullable=False)
     email = Column(Text, nullable=False)
-    password = Column(Text, nullable=False)
     address = Column(Text, nullable=False)
     city = Column(Text, nullable=False)
     state = Column(Text, nullable=False)

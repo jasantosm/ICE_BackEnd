@@ -6,7 +6,6 @@ class Company(BaseModel):
     id: int
     name: str
     email: str
-    password: str
     address: str
     city: str
     state: str
