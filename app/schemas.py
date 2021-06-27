@@ -16,23 +16,18 @@ class Company(BaseModel):
     class Config:
         orm_mode = True
 
-
-class Employee(BaseModel):
+class User(BaseModel):
     id: int
     email: str
-    name: str
-    phone: str
-    whatsapp:str
     password: str
-    photo: str
-    profession: str
-    job_title: str
-    is_admin: str
-    is_assistant: str
-    is_advisor: str
-    companies_id: str
-    about: str
+    is_super = False
+    is_admin = False
+    is_customer = False
+    is_ICE_admin = False
 
     class Config:
         orm_mode = True
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str

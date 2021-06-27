@@ -1,7 +1,7 @@
 from app import companies_crud
 from typing import Dict, List
 
-from fastapi import Depends, APIRouter, HTTPException
+from fastapi import Depends, APIRouter, HTTPException, status
 
 from sqlalchemy.orm import Session
 
@@ -18,32 +18,32 @@ def get_db():
 
 router = APIRouter()
 
-@router.post("/companies/", response_model=schemas.Company)
+@router.post("/companies/", response_model=schemas.Company, status_code=status.HTTP_201_CREATED)
 async def create_company(company: schemas.Company, db: Session = Depends(get_db)):
     db_company = companies_crud.get_company(db, company.vat_number)
     if db_company:
         raise HTTPException(status_code=400, detail="Company already registered")
     return companies_crud.create_company(db, company)
 
-@router.get("/companies/{vat_number}", response_model=schemas.Company)
+@router.get("/companies/{vat_number}", response_model=schemas.Company, status_code=status.HTTP_200_OK)
 async def get_company(vat_number: int, db: Session = Depends(get_db)):
     db_company = companies_crud.get_company(db, vat_number)
     if not db_company:
         raise HTTPException(status_code=404, detail="Company not registered")
     return db_company
 
-@router.get("/companies/all/{limit}", response_model=List[schemas.Company])
+@router.get("/companies/all/{limit}", response_model=List[schemas.Company], status_code=status.HTTP_200_OK)
 async def get_companies(limit: int, db: Session = Depends(get_db)):
     return companies_crud.get_companies(db, limit)
 
-@router.delete("/companies/{vat_number}", response_model=schemas.Company)
+@router.delete("/companies/{vat_number}", response_model=schemas.Company, status_code=status.HTTP_200_OK)
 async def delete_company(vat_number: int, db: Session = Depends(get_db)):
     db_company = companies_crud.get_company(db, vat_number)
     if not db_company:
         raise HTTPException(status_code=404, detail="Company not registered")
     return companies_crud.delete_company(db, vat_number)
 
-@router.put("/companies/{vat_number}", response_model=schemas.Company)
+@router.put("/companies/{vat_number}", response_model=schemas.Company, status_code=status.HTTP_202_ACCEPTED)
 async def update_company(vat_number: int, update_fields: Dict, db: Session = Depends(get_db)):
     db_company = companies_crud.get_company(db, vat_number)
     if not db_company:

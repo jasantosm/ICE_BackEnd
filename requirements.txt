@@ -2,3 +2,12 @@ fastapi
 uvicorn
 SQLAlchemy
 psycopg2
+bcrypt
+cffi
+click
+h11
+passlib
+pycparser
+PyJWT
+six
+python-multipart
