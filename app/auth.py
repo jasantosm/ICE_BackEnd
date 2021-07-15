@@ -1,6 +1,7 @@
+from fastapi import security
 import jwt
-from fastapi import HTTPException, Security, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
@@ -10,7 +11,7 @@ from . import schemas, users_crud
 
 
 class AuthHandler():
-    security = HTTPBearer()
+    security = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     secret = 'SECRET'
 
@@ -68,5 +69,5 @@ class AuthHandler():
         except jwt.InvalidTokenError as e:
             raise credentials_exception
 
-    def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
-        return self.decode_token(auth.credentials)
+    def auth_wrapper(self, token: str = Depends(security)):
+        return self.decode_token(token)

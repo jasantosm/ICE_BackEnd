@@ -25,18 +25,21 @@ router = APIRouter()
 auth_handler = AuthHandler()
 
 
-
 @router.post("/users/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-async def create_user(user: schemas.User, db: Session = Depends(get_db)):  
-    db_user = users_crud.get_user(db, user.email)
-    if db_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already registered")
-    user.password = auth_handler.get_password_hash(user.password)
-    
-    return users_crud.create_user(db, user)
+async def create_user(user: schemas.User, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):  
+    db_user = users_crud.get_user(db,useremail)
+    if db_user.is_ICE_admin or db_user.is_super:
+        db_user = users_crud.get_user(db, user.email)
+        if db_user:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already registered")
+        user.password = auth_handler.get_password_hash(user.password)
+        
+        return users_crud.create_user(db, user)
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
 
-@router.post("/login/", response_model=schemas.Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+@router.post("/token/", response_model=schemas.Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = auth_handler.authenticate_user(db, form_data.username, form_data.password)
 
     if not user:

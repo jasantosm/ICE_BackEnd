@@ -31,3 +31,18 @@ class User(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+class Employee(BaseModel):
+    id: int
+    name: str
+    phone: str
+    whatsapp: str
+    photo: str
+    profession: str
+    job_title: str
+    about: str
+    company_id: int
+    user_id: int
+
+    class Config:
+        orm_mode = True

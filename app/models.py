@@ -27,4 +27,17 @@ class User(Base):
     is_admin = Column(Boolean, nullable=False,  default=False)
     is_customer = Column(Boolean, nullable=False,  default=False)
     is_ICE_admin = Column(Boolean, nullable=False,  default=False)
+
+class Employee(Base):
+    __tablename__ = "employees"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(Text, nullable=False)
+    phone = Column(Text, nullable=False)
+    whatsapp = Column(Text, nullable=True)
+    photo = Column(Text, nullable=True)
+    profession = Column(Text, nullable=False)
+    job_title = Column(Text, nullable=False)
+    about = Column(Text, nullable=True)
+    company_id = Column(Integer, nullable=False)
+    user_id = Column(Integer, nullable=False)
     
