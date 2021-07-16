@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+from fastapi import HTTPException
 
 from . import models, schemas
 
@@ -33,3 +34,15 @@ def delete_employee(db: Session, user_id: int):
     db.delete(obj)
     db.commit()
     return obj
+
+def update_employee(db: Session, user_id: int, update_fields: schemas.Employee):
+
+    if "id" in update_fields:
+        raise HTTPException(status_code=409, detail="id field cannot be updated")
+
+    if "user_id" in update_fields:
+        raise HTTPException(status_code=409, detail="user_id field cannot be updated")
+        
+    db.query(models.Employee).filter(models.Employee.user_id==user_id).update(update_fields)
+    db.commit()
+    return get_employee(db, user_id)

@@ -63,3 +63,13 @@ async def delete_employee(user_id: int, db: Session = Depends(get_db), useremail
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
 
+@router.put("/employees/{user_id}", response_model=schemas.Employee, status_code=status.HTTP_202_ACCEPTED)
+async def update_company(user_id: int, update_fields: Dict, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
+    db_user = users_crud.get_user(db,useremail)
+    if db_user.is_ICE_admin:    
+        db_employee = employees_crud.get_employee(db, user_id)
+        if not db_employee:
+            raise HTTPException(status_code=404, detail="Employee not registered")
+        return employees_crud.update_employee(db, user_id, update_fields)
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
