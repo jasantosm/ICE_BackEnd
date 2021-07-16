@@ -24,3 +24,12 @@ def create_employee(db: Session, employee: schemas.Employee):
 
 def get_employee(db: Session, user_id: int):
     return db.query(models.Employee).filter(models.Employee.user_id==user_id).first()
+
+def get_employees(db: Session, limit: int):
+    return db.query(models.Employee).limit(limit).all()
+
+def delete_employee(db: Session, user_id: int):
+    obj = db.query(models.Employee).filter(models.Employee.user_id==user_id).first()
+    db.delete(obj)
+    db.commit()
+    return obj
