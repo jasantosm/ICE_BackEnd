@@ -16,6 +16,22 @@ class Company(BaseModel):
     class Config:
         orm_mode = True
 
+class Customer(BaseModel):
+    id: int
+    name: str
+    email: str
+    address: str
+    city: str
+    state: str
+    phone: str
+    logo: str
+    vat_number: int
+    technical_advisor_id: int
+    sales_advisor_id: int
+
+    class Config:
+        orm_mode = True
+
 class User(BaseModel):
     id: int
     email: str

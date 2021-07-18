@@ -17,6 +17,22 @@ class Company(Base):
     logo = Column(Text, nullable=False)
     vat_number = Column(Integer, unique=True, nullable=False)
 
+class Customer(Base):
+    __tablename__ = "customers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(Text, nullable=False)
+    email = Column(Text, nullable=False)
+    address = Column(Text, nullable=False)
+    city = Column(Text, nullable=False)
+    state = Column(Text, nullable=False)
+    phone = Column(Text, nullable=False)
+    logo = Column(Text, nullable=False)
+    vat_number = Column(Integer, unique=True, nullable=False)
+    technical_advisor_id = Column(Integer, nullable=False)
+    sales_advisor_id = Column(Integer, nullable=False)
+
+
 class User(Base):
     __tablename__ = "users"
 
