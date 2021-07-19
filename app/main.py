@@ -1,4 +1,4 @@
-from app.routers import employees, users, companies, customers
+from app.routers import employees, users, companies, customers, customer_employees
 from typing import List
 
 from fastapi import Depends, FastAPI
@@ -48,6 +48,14 @@ app.include_router(
     customers.router,
     prefix=prefix,
     tags=["Customers Endpoints"],
+    dependencies=[Depends(get_db)],
+    responses={404: {"description": "Not found"}},
+)
+
+app.include_router(
+    customer_employees.router,
+    prefix=prefix,
+    tags=["Customer Employees Endpoints"],
     dependencies=[Depends(get_db)],
     responses={404: {"description": "Not found"}},
 )
