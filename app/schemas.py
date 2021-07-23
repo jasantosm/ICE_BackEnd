@@ -1,4 +1,5 @@
 from typing import Optional
+from datetime import date
 
 from pydantic import BaseModel
 
@@ -72,6 +73,37 @@ class CustomerEmployee(BaseModel):
     job_title: str
     customer_id: int
     user_id: int
+
+    class Config:
+        orm_mode = True
+
+class Order(BaseModel):
+    id: int
+    customer_number: int
+    descripction: str
+    order_date: date
+    ETA: date
+    amount: float
+    terms: str
+    forwarder_id: str
+    tracking_code: str
+    from_lat: float
+    from_long: float
+    to_lat: float
+    to_long: float
+    customer_id: int
+
+    class Config:
+        orm_mode = True
+
+class Forwarder(BaseModel):
+    id: int
+    name: str
+    phone: str
+    extension: str
+    contact_person_name: str
+    cell_phone: str
+    website: str
 
     class Config:
         orm_mode = True

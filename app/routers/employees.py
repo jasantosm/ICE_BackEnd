@@ -1,4 +1,3 @@
-from app import companies_crud
 from typing import Dict, List
 
 from fastapi import Depends, APIRouter, HTTPException, status
