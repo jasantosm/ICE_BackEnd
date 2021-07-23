@@ -52,7 +52,7 @@ async def get_forwarders(db: Session = Depends(get_db), useremail=Depends(auth_h
 @router.delete("/forwarders/{forwarder_id}", response_model=schemas.Forwarder, status_code=status.HTTP_200_OK)
 async def delete_forwarder(forwarder_id: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:
+    if db_user.is_ICE_admin or db_user.is_super:
         db_forwarder = forwarders_crud.get_forwarder(db, forwarder_id)
         if not db_forwarder:
             raise HTTPException(status_code=404, detail="Forwarder not registered")
@@ -63,7 +63,7 @@ async def delete_forwarder(forwarder_id: int, db: Session = Depends(get_db), use
 @router.put("/forwarders/{forwarder_id}", response_model=schemas.Forwarder, status_code=status.HTTP_202_ACCEPTED)
 async def update_forwarder(user_id: int, update_fields: Dict, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:    
+    if db_user.is_ICE_admin or db_user.is_super:   
         db_forwarder = forwarders_crud.get_forwarder(db, user_id)
         if not db_forwarder:
             raise HTTPException(status_code=404, detail="Forwarder not registered")

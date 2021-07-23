@@ -34,7 +34,7 @@ async def create_employee(employee: schemas.Employee, db: Session = Depends(get_
 @router.get("/employees/{user_id}", response_model=schemas.Employee, status_code=status.HTTP_200_OK)
 async def get_employee(user_id: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:
+    if db_user.is_ICE_admin or db_user.is_super:
         db_employee = employees_crud.get_employee(db, user_id)
         if not db_employee:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not registered")
@@ -46,7 +46,7 @@ async def get_employee(user_id: int, db: Session = Depends(get_db), useremail=De
 @router.get("/employees/all/{limit}", response_model=List[schemas.Employee], status_code=status.HTTP_200_OK)
 async def get_employees(limit: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:
+    if db_user.is_ICE_admin or db_user.is_super:
         return employees_crud.get_employees(db, limit)
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
@@ -54,7 +54,7 @@ async def get_employees(limit: int, db: Session = Depends(get_db), useremail=Dep
 @router.delete("/employees/{user_id}", response_model=schemas.Employee, status_code=status.HTTP_200_OK)
 async def delete_employee(user_id: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:
+    if db_user.is_ICE_admin or db_user.is_super:
         db_employee = employees_crud.get_employee(db, user_id)
         if not db_employee:
             raise HTTPException(status_code=404, detail="Employee not registered")
@@ -65,7 +65,7 @@ async def delete_employee(user_id: int, db: Session = Depends(get_db), useremail
 @router.put("/employees/{user_id}", response_model=schemas.Employee, status_code=status.HTTP_202_ACCEPTED)
 async def update_company(user_id: int, update_fields: Dict, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
-    if db_user.is_ICE_admin:    
+    if db_user.is_ICE_admin or db_user.is_super:   
         db_employee = employees_crud.get_employee(db, user_id)
         if not db_employee:
             raise HTTPException(status_code=404, detail="Employee not registered")
