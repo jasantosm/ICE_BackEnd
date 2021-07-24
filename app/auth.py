@@ -11,7 +11,7 @@ from . import schemas, users_crud
 
 
 class AuthHandler():
-    security = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
+    security = OAuth2PasswordBearer(tokenUrl="/api/token")
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     secret = 'SECRET'
 
