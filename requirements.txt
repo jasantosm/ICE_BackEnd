@@ -11,3 +11,6 @@ pycparser
 PyJWT
 six
 python-multipart
+uvicorn
+uvloop
+httptools 
