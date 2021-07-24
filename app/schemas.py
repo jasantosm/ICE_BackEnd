@@ -85,7 +85,7 @@ class Order(BaseModel):
     ETA: date
     amount: float
     terms: str
-    forwarder_id: str
+    forwarder_id: int
     tracking_code: str
     from_lat: float
     from_long: float
