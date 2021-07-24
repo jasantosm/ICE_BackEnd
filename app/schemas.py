@@ -92,6 +92,7 @@ class Order(BaseModel):
     to_lat: float
     to_long: float
     customer_id: int
+    documents: str
 
     class Config:
         orm_mode = True

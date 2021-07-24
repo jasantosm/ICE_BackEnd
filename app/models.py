@@ -1,5 +1,6 @@
+from datetime import date
 from enum import unique
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import Column, Integer, Text, Date, Float
 from sqlalchemy.sql.sqltypes import Boolean
 
 from .database import Base
@@ -67,6 +68,24 @@ class CustomerEmployee(Base):
     job_title = Column(Text, nullable=False)
     customer_id = Column(Integer, nullable=False)
     user_id = Column(Integer, nullable=False)
+
+class Order(Base):
+    __tablename__ = "orders"
+    id = Column(Integer, primary_key=True, index=True)
+    customer_number = Column(Integer, nullable=False)
+    descripction = Column(Text, nullable=False)
+    order_date = Column(Date, nullable=False)
+    ETA = Column(Date, nullable=False)
+    amount = Column(Float, nullable=False)
+    terms = Column(Text, nullable=False)
+    forwarder_id = Column(Integer, nullable=False)
+    tracking_code = Column(Text, nullable=True)
+    from_lat = Column(Float, nullable=False)
+    from_long = Column(Float, nullable=False)
+    to_lat = Column(Float, nullable=False)
+    to_long = Column(Float, nullable=False)
+    customer_id = Column(Float, nullable=False)
+    documents = Column(Text, nullable=True)
 
 class Forwarder(Base):
     __tablename__ = "forwarders"
