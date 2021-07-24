@@ -73,7 +73,7 @@ class Order(Base):
     __tablename__ = "orders"
     id = Column(Integer, primary_key=True, index=True)
     customer_number = Column(Integer, nullable=False)
-    descripction = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
     order_date = Column(Date, nullable=False)
     ETA = Column(Date, nullable=False)
     amount = Column(Float, nullable=False)

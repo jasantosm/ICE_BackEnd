@@ -7,7 +7,7 @@ from . import models, schemas
 def create_order(db: Session, order: schemas.Order):
     db_order = models.Order(
         customer_number = order.customer_number,
-        descripction = order.descripction,
+        description = order.description,
         order_date = order.order_date,
         ETA = order.ETA,
         amount = order.amount,
@@ -29,7 +29,7 @@ def create_order(db: Session, order: schemas.Order):
     return db_order
 
 def get_order(db: Session, order_id: int):
-    return db.query(models.Order).filter(models.Order.d==order_id).first()
+    return db.query(models.Order).filter(models.Order.id==order_id).first()
 
 def get_orders(db: Session, limit: int):
     return db.query(models.Order).limit(limit).all()

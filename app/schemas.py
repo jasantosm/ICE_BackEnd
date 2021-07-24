@@ -80,7 +80,7 @@ class CustomerEmployee(BaseModel):
 class Order(BaseModel):
     id: int
     customer_number: int
-    descripction: str
+    description: str
     order_date: date
     ETA: date
     amount: float
