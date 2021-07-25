@@ -2,6 +2,7 @@ from app.routers import employees, order, users, companies, customers, customer_
 from typing import List
 
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from . import models
 from .database import SessionLocal, engine
@@ -12,6 +13,17 @@ app = FastAPI(title="ICE API",
     description="ICE BackEnd REST API",
     version="1.0",
     debug=True)
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def get_db():
     db = SessionLocal()
