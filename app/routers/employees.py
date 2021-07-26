@@ -51,6 +51,14 @@ async def get_employees(limit: int, db: Session = Depends(get_db), useremail=Dep
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
 
+@router.get("/employees/bycompany/{company_id}", response_model=List[schemas.Employee], status_code=status.HTTP_200_OK)
+async def get_employees_by_company(company_id: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
+    db_user = users_crud.get_user(db,useremail)
+    if db_user.is_ICE_admin or db_user.is_super:
+        return employees_crud.get_employees_by_company(db, company_id)
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
+
 @router.delete("/employees/{user_id}", response_model=schemas.Employee, status_code=status.HTTP_200_OK)
 async def delete_employee(user_id: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)

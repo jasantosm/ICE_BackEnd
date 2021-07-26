@@ -27,6 +27,9 @@ def get_employee(db: Session, user_id: int):
 def get_employees(db: Session, limit: int):
     return db.query(models.CustomerEmployee).limit(limit).all()
 
+def get_employees_by_customer(db: Session, customer_id: int):
+    return db.query(models.CustomerEmployee).filter(models.CustomerEmployee.customer_id==customer_id).all()
+
 def delete_employee(db: Session, user_id: int):
     obj = db.query(models.CustomerEmployee).filter(models.CustomerEmployee.user_id==user_id).first()
     db.delete(obj)
