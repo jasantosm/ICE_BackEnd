@@ -10,7 +10,8 @@ def create_user(db: Session, user: schemas.User):
         password = user.password,
         is_super = user.is_super,
         is_admin = user.is_admin,
-        is_customer = user.is_customer
+        is_customer = user.is_customer,
+        is_ICE_admin = user.is_ICE_admin,
     )
     db.add(db_user)
     db.commit()
