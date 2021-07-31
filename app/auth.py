@@ -34,6 +34,7 @@ class AuthHandler():
             'exp': datetime.utcnow() + expires_delta,
             'iat': datetime.utcnow(),
             'sub': user.email,
+            'user_id': user.id,
             'is_super': user.is_super,
             'is_admin': user.is_admin,
             'is_customer': user.is_customer,
