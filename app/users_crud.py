@@ -12,6 +12,15 @@ def create_user(db: Session, user: schemas.User):
         is_admin = user.is_admin,
         is_customer = user.is_customer,
         is_ICE_admin = user.is_ICE_admin,
+        name = user.name,
+        phone = user.phone,
+        whatsapp = user.whatsapp,
+        photo = user.photo,
+        profession = user.profession,
+        job_title = user.job_title,
+        about = user.about,
+        company_id = user.company_id,
+        customer_id = user.customer_id
     )
     db.add(db_user)
     db.commit()
