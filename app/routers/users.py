@@ -63,6 +63,7 @@ async def get_user(user_id: int, db: Session = Depends(get_db), useremail=Depend
         db_user = users_crud.get_user_by_id(db, user_id)
         if not db_user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not registered")
+        db_user.password = "null"
         return db_user
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
@@ -71,7 +72,10 @@ async def get_user(user_id: int, db: Session = Depends(get_db), useremail=Depend
 async def get_users(limit: int, db: Session = Depends(get_db), useremail=Depends(auth_handler.auth_wrapper)):
     db_user = users_crud.get_user(db,useremail)
     if db_user.is_ICE_admin or db_user.is_super:
-        return users_crud.get_users(db, limit)
+        users = users_crud.get_users(db, limit)
+        for user in users:
+            user.password = "null"
+        return users
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is not authorized for this method")
 

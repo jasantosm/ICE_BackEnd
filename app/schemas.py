@@ -41,6 +41,15 @@ class User(BaseModel):
     is_admin = False
     is_customer = False
     is_ICE_admin = False
+    name: str
+    phone: str
+    whatsapp: Optional[str]
+    photo: Optional[str]
+    profession: Optional[str]
+    job_title: str
+    about: Optional[str]
+    company_id: Optional[int]
+    customer_id: Optional[int]
 
     class Config:
         orm_mode = True
@@ -48,34 +57,6 @@ class User(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
-
-class Employee(BaseModel):
-    id: int
-    name: str
-    phone: str
-    whatsapp: str
-    photo: str
-    profession: str
-    job_title: str
-    about: str
-    company_id: int
-    user_id: int
-
-    class Config:
-        orm_mode = True
-
-class CustomerEmployee(BaseModel):
-    id: int
-    name: str
-    phone: str
-    whatsapp: str
-    photo: str
-    job_title: str
-    customer_id: int
-    user_id: int
-
-    class Config:
-        orm_mode = True
 
 class Order(BaseModel):
     id: int
